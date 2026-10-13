@@ -56,6 +56,10 @@
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 html, body { background: var(--bg); color: var(--ink); }
+/* Quick repeated taps (selling duplicates, tapping the free pack) must not zoom the page on
+   phones: no double-tap zoom anywhere, while scrolling and pinch-zoom still work. */
+html, body, button, [data-act], label, select, input { touch-action: manipulation; }
+button { -webkit-user-select: none; user-select: none; }
 body {
   margin: 0;
   font-family: var(--font-body);
