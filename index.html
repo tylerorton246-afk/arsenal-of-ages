@@ -8706,7 +8706,12 @@ textarea.code {
       if (reward) lines.push('Collection reward: <b>+' + fmt(reward) + '</b> coins');
       if (soldCoins) lines.push('Auto-sold for <b>' + fmt(soldCoins) + '</b> coins');
       if (res.bonus) lines.push('Bought-pack bonus: <b>+' + fmt(res.bonus) + '</b> coins (card value upgrades count double)');
-      if (stored) lines.push(plural(stored, 'duplicate') + ' sent to Storage');
+      if (stored) {
+        // How much room is left now (the Auto-Seller may have made some during the animation).
+        const room = Math.max(0, PG.stats(S).storageCap - S.dupeTotal);
+        lines.push(plural(stored, 'duplicate') + ' sent to Storage · ' + (room ? '<b>' + fmt(room) + '</b> of ' + fmt(PG.stats(S).storageCap) + ' spaces left'
+          : '<span class="warn">Storage is full</span>'));
+      }
       if (scrapped) lines.push('<span class="warn">' + plural(scrapped, 'duplicate') + ' scrapped: storage is full</span>');
       if (total > shown.length) lines.push('Showing ' + shown.length + ' of ' + total + ' cards (every new card plus the rarest repeats)');
       const sum = $('.ov-summary', ov);
